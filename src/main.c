@@ -1,4 +1,6 @@
 #include <raylib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 800
@@ -12,6 +14,9 @@ typedef enum GameScreen {
 
 typedef struct GameState {
   GameScreen screen;
+  Vector2 *positions;
+  unsigned int character_count;
+  unsigned int score;
 } GameState;
 
 void DrawTextCentre(const char *text, int posY, Color color) {
@@ -102,16 +107,32 @@ void HandleKeyPress(GameState *state) {
   }
 }
 
-int main(void) {
+void InitializeGame(GameState *state) {
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Avoidance");
   SetTargetFPS(60);
   ToggleFullscreen();
+  state->screen = TITLE;
+  state->character_count = 3;
+  state->score = 0;
+  state->positions = calloc((SCREEN_WIDTH * SCREEN_HEIGHT) / FONT_SIZE, sizeof(Vector2));
+  if (state->positions == NULL) {
+    perror("Failed to initialize game state");
+    exit(EXIT_FAILURE);
+  }
+}
+
+void DestroyGame(GameState *state) {
+  CloseWindow();
+  free(state->positions);
+}
+
+int main(void) {
   GameState state;
-  state.screen = TITLE;
+  InitializeGame(&state);
   while (!WindowShouldClose()) {
     HandleKeyPress(&state);
     HandleDraw(state);
   }
-  CloseWindow();
+  DestroyGame(&state);
   return 0;
 }
