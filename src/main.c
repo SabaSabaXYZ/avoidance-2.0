@@ -60,6 +60,11 @@ void DrawHelp() {
   DrawText("Press any key to return to the main menu.", startWidth, startHeight + helpFontSize * 28, helpFontSize, WHITE);
 }
 
+void DrawScore(GameState state) {
+  DrawText(TextFormat("Score: %u", state.score), SCREEN_WIDTH / 32, SCREEN_HEIGHT - (FONT_SIZE * 12), FONT_SIZE, WHITE);
+  DrawFPS(0, 0);
+}
+
 void HandleDraw(GameState state) {
   BeginDrawing();
   ClearBackground(BLACK);
@@ -76,10 +81,13 @@ void HandleDraw(GameState state) {
     default:
       break;
   }
+  DrawScore(state);
   EndDrawing();
 }
 
 void StartGame(GameState *state) {
+  state->character_count = 3;
+  state->score = 0;
   state->screen = GAMEPLAY;
 }
 
@@ -113,7 +121,6 @@ void InitializeGame(GameState *state) {
   SetTargetFPS(60);
   ToggleFullscreen();
   state->screen = TITLE;
-  state->character_count = 3;
   state->score = 0;
   state->positions = calloc((SCREEN_WIDTH * SCREEN_HEIGHT) / FONT_SIZE, sizeof(Vector2));
   if (state->positions == NULL) {
