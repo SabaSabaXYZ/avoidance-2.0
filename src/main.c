@@ -82,10 +82,7 @@ void HandleDraw(GameState state) {
 void HandleKeyPress(GameState *state) {
   switch (state->screen) {
     case TITLE:
-      if (IsKeyPressed(KEY_F)) {
-        ToggleFullscreen();
-      }
-      else if (IsKeyPressed(KEY_H)) {
+      if (IsKeyPressed(KEY_H)) {
         state->screen = HELP;
       }
       else if (IsKeyPressed(KEY_P)) {
