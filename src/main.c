@@ -20,12 +20,39 @@ void DrawTextCentre(const char *text, int posY, Color color) {
 }
 
 void DrawTitle() {
-  int startHeight = SCREEN_HEIGHT / 4;
-  DrawTextCentre("==Avoidance==", startHeight, WHITE);
+  int startHeight = SCREEN_HEIGHT / 5;
+  DrawTextCentre("==Avoidance 2.0==", startHeight, WHITE);
   DrawTextCentre("Move: W/A/S/D", startHeight + FONT_SIZE * 2, WHITE);
   DrawTextCentre("Help: H", startHeight + FONT_SIZE * 4, WHITE);
   DrawTextCentre("Play: P", startHeight + FONT_SIZE * 6, WHITE);
-  DrawTextCentre("Quit: Q/Esc", startHeight + FONT_SIZE * 8, WHITE);
+  DrawTextCentre("Stop Game: Q", startHeight + FONT_SIZE * 8, WHITE);
+  DrawTextCentre("Quit: Esc", startHeight + FONT_SIZE * 10, WHITE);
+}
+
+void DrawGameplay(GameState state) {
+  int startHeight = SCREEN_HEIGHT / 4;
+  DrawTextCentre("GAME", startHeight, WHITE);
+  DrawTextCentre("GAME", startHeight + FONT_SIZE * 2, WHITE);
+  DrawTextCentre("GAME", startHeight + FONT_SIZE * 4, WHITE);
+  DrawTextCentre("GAME", startHeight + FONT_SIZE * 6, WHITE);
+  DrawTextCentre("GAME", startHeight + FONT_SIZE * 8, WHITE);
+}
+
+void DrawHelp() {
+  int startWidth = SCREEN_WIDTH / 4;
+  int startHeight = SCREEN_HEIGHT / 7;
+  int helpFontSize = 10;
+  DrawText("Use W, A, S, and D to move up, left, down, and right respectively.", startWidth, startHeight, helpFontSize, WHITE);
+  DrawText("Press Q during an active game to return to the main menu.", startWidth, startHeight + helpFontSize * 2, helpFontSize, WHITE);
+  DrawText("Press Q while on the main menu to terminate the application.", startWidth, startHeight + helpFontSize * 4, helpFontSize, WHITE);
+  DrawText("OBJECTIVE:", startWidth, startHeight + helpFontSize * 8, helpFontSize, WHITE);
+  DrawText("Push the box around the screen, making sure that it is not pushed off the edge.", startWidth, startHeight + helpFontSize * 12, helpFontSize, WHITE);
+  DrawText("Box thieves will appear sporadically to steal the box.", startWidth, startHeight + helpFontSize * 14, helpFontSize, WHITE);
+  DrawText("Your objective is to keep the box on-screen for as long as possible.", startWidth, startHeight + helpFontSize * 16, helpFontSize, WHITE);
+  DrawText("P: Player", startWidth + helpFontSize * 4, startHeight + helpFontSize * 20, helpFontSize, WHITE);
+  DrawText("O: Box", startWidth + helpFontSize * 4, startHeight + helpFontSize * 22, helpFontSize, WHITE);
+  DrawText("X: Box Thief", startWidth + helpFontSize * 4, startHeight + helpFontSize * 24, helpFontSize, WHITE);
+  DrawText("Press any key to return to the main menu.", startWidth, startHeight + helpFontSize * 28, helpFontSize, WHITE);
 }
 
 void HandleDraw(GameState state) {
@@ -35,26 +62,44 @@ void HandleDraw(GameState state) {
     case TITLE:
       DrawTitle();
       break;
+    case GAMEPLAY:
+      DrawGameplay(state);
+      break;
+    case HELP:
+      DrawHelp();
+      break;
     default:
       break;
   }
   EndDrawing();
 }
 
-bool HandleKeyPress(GameState state) {
-  switch (state.screen) {
+void HandleKeyPress(GameState *state) {
+  switch (state->screen) {
     case TITLE:
-      if (IsKeyPressed(KEY_Q)) {
-        return true;
-      }
       if (IsKeyPressed(KEY_F)) {
         ToggleFullscreen();
+      }
+      else if (IsKeyPressed(KEY_H)) {
+        state->screen = HELP;
+      }
+      else if (IsKeyPressed(KEY_P)) {
+        state->screen = GAMEPLAY;
+      }
+      break;
+    case HELP:
+      if (GetKeyPressed()) {
+        state->screen = TITLE;
+      }
+      break;
+    case GAMEPLAY:
+      if (IsKeyPressed(KEY_Q)) {
+        state->screen = TITLE;
       }
       break;
     default:
       break;
   }
-  return false;
 }
 
 int main(void) {
@@ -64,10 +109,8 @@ int main(void) {
   GameState state;
   state.screen = TITLE;
   while (!WindowShouldClose()) {
+    HandleKeyPress(&state);
     HandleDraw(state);
-    if (HandleKeyPress(state)) {
-      break;
-    }
   }
   CloseWindow();
   return 0;
