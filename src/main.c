@@ -79,6 +79,10 @@ void HandleDraw(GameState state) {
   EndDrawing();
 }
 
+void StartGame(GameState *state) {
+  state->screen = GAMEPLAY;
+}
+
 void HandleKeyPress(GameState *state) {
   switch (state->screen) {
     case TITLE:
@@ -86,7 +90,7 @@ void HandleKeyPress(GameState *state) {
         state->screen = HELP;
       }
       else if (IsKeyPressed(KEY_P)) {
-        state->screen = GAMEPLAY;
+        StartGame(state);
       }
       break;
     case HELP:
