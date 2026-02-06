@@ -1,0 +1,9 @@
+.cache/**
+Avoidance
+CMakeCache.txt
+CMakeFiles/**
+*.cmake
+Makefile
+_deps/**
+compile_commands.json
+tags*
