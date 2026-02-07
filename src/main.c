@@ -31,6 +31,7 @@ void InitializeGame(GameState *state) {
     exit(EXIT_FAILURE);
   }
   ToggleFullscreen();
+  HideCursor();
 }
 
 void DestroyGame(GameState *state) {
