@@ -32,8 +32,9 @@ typedef enum MoveDirection {
 
 typedef struct GameState {
   GameScreen screen;
-  int gameWidth;
-  int gameHeight;
+  int screenWidth;
+  int screenHeight;
+  Rectangle gameBoundary;
   Vector2 *positions;
   MoveDirection *directions;
   unsigned int character_count;

@@ -6,13 +6,13 @@ void StartGame(GameState *state) {
   state->screen = GAMEPLAY;
   Vector2 *player = &state->positions[PLAYER_ID];
   Vector2 *box = &state->positions[BOX_ID];
-  box->x = (float) state->gameWidth / 2;
-  box->y = (float) state->gameHeight / 2;
+  box->x = (float) state->screenWidth / 2;
+  box->y = (float) state->screenHeight / 2;
   player->x = box->x - FONT_SIZE * 2;
   player->y = box->y - FONT_SIZE * 2;
 }
 
-void UpdatePositionByDirection(Vector2 *position, MoveDirection direction) {
+void UpdatePositionByDirection(GameState *state, Vector2 *position, MoveDirection direction) {
   switch (direction) {
     case UP:
       position->y -= MOVEMENT_SPEED;
@@ -37,7 +37,7 @@ void UpdatePositions(GameState *state) {
   }
   state->score++;
   for (unsigned int i = 0; i < state->character_count; ++i) {
-    UpdatePositionByDirection(&state->positions[i], state->directions[i]);
+    UpdatePositionByDirection(state, &state->positions[i], state->directions[i]);
   }
 }
 

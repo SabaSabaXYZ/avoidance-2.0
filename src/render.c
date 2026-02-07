@@ -1,23 +1,23 @@
 #include "render.h"
 #include <raymath.h>
 
-void DrawTextCentre(const char *text, int posY, Color color, int gameWidth) {
+void DrawTextCentre(const char *text, int posY, Color color, int screenWidth) {
   const int textWidth = MeasureText(text, FONT_SIZE);
-  DrawText(text, (gameWidth - textWidth) / 2, posY, FONT_SIZE, color);
+  DrawText(text, (screenWidth - textWidth) / 2, posY, FONT_SIZE, color);
 }
 
 void DrawBoundary(GameState state) {
-  DrawRectangleLines(GAME_LEFT, GAME_TOP, state.gameWidth - GAME_LEFT, state.gameHeight - GAME_TOP, GOLD);
+  DrawRectangleLinesEx(state.gameBoundary, 1.0f, RED);
 }
 
 void DrawTitle(GameState state) {
-  const int startHeight = state.gameHeight / 2 - 5 * FONT_SIZE;
-  DrawTextCentre("==Avoidance 2.0==", startHeight, WHITE, state.gameWidth);
-  DrawTextCentre("Move: W/A/S/D", startHeight + FONT_SIZE * 2, WHITE, state.gameWidth);
-  DrawTextCentre("Help: H", startHeight + FONT_SIZE * 4, WHITE, state.gameWidth);
-  DrawTextCentre("Play: P", startHeight + FONT_SIZE * 6, WHITE, state.gameWidth);
-  DrawTextCentre("Stop Game: Q", startHeight + FONT_SIZE * 8, WHITE, state.gameWidth);
-  DrawTextCentre("Quit: Esc", startHeight + FONT_SIZE * 10, WHITE, state.gameWidth);
+  const int startHeight = state.screenHeight / 2 - 5 * FONT_SIZE;
+  DrawTextCentre("==Avoidance 2.0==", startHeight, WHITE, state.screenWidth);
+  DrawTextCentre("Move: W/A/S/D", startHeight + FONT_SIZE * 2, WHITE, state.screenWidth);
+  DrawTextCentre("Help: H", startHeight + FONT_SIZE * 4, WHITE, state.screenWidth);
+  DrawTextCentre("Play: P", startHeight + FONT_SIZE * 6, WHITE, state.screenWidth);
+  DrawTextCentre("Stop Game: Q", startHeight + FONT_SIZE * 8, WHITE, state.screenWidth);
+  DrawTextCentre("Quit: Esc", startHeight + FONT_SIZE * 10, WHITE, state.screenWidth);
 }
 
 void DrawGameplay(GameState state) {
@@ -30,8 +30,8 @@ void DrawGameplay(GameState state) {
 }
 
 void DrawHelp(GameState state) {
-  const int startWidth = state.gameWidth / 4;
-  const int startHeight = state.gameHeight / 2 - 14 * FONT_SIZE;
+  const int startWidth = state.screenWidth / 4;
+  const int startHeight = state.screenHeight / 2 - 14 * FONT_SIZE;
   DrawText("Use W, A, S, and D to move up, left, down, and right respectively.", startWidth, startHeight, FONT_SIZE, WHITE);
   DrawText("Press Q during an active game to return to the main menu.", startWidth, startHeight + FONT_SIZE * 2, FONT_SIZE, WHITE);
   DrawText("Press Q while on the main menu to terminate the application.", startWidth, startHeight + FONT_SIZE * 4, FONT_SIZE, WHITE);
@@ -48,12 +48,12 @@ void DrawHelp(GameState state) {
 void DrawScore(GameState state) {
   const char *score = TextFormat("Score: %lu", state.score);
   int scoreLength = MeasureText(score, FONT_SIZE);
-  DrawText(score, state.gameWidth - scoreLength, 0, FONT_SIZE, WHITE);
+  DrawText(score, state.screenWidth - scoreLength, 0, FONT_SIZE, WHITE);
   DrawFPS(0, 0);
 }
 
 void DrawToScreen(GameState state, Texture2D texture) {
-  float scale = fminf((float) GetScreenWidth() / state.gameWidth, (float) GetScreenHeight() / state.gameHeight);
+  float scale = fminf((float) GetScreenWidth() / state.screenWidth, (float) GetScreenHeight() / state.screenHeight);
   BeginDrawing();
   ClearBackground(BLACK);
   Rectangle textureRectangle = (Rectangle) {
@@ -63,10 +63,10 @@ void DrawToScreen(GameState state, Texture2D texture) {
     (float) -texture.height
   };
   Rectangle screenRectangle = (Rectangle) {
-    (GetScreenWidth() - ((float) state.gameWidth * scale)) * 0.5f,
-    (GetScreenHeight() - ((float) state.gameHeight * scale)) * 0.5f,
-    state.gameWidth * scale,
-    state.gameHeight * scale
+    (GetScreenWidth() - ((float) state.screenWidth * scale)) * 0.5f,
+    (GetScreenHeight() - ((float) state.screenHeight * scale)) * 0.5f,
+    state.screenWidth * scale,
+    state.screenHeight * scale
   };
   DrawTexturePro(texture, textureRectangle, screenRectangle, (Vector2) { 0.0f, 0.0f }, 0.0f, WHITE);
   EndDrawing();

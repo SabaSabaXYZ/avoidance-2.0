@@ -13,19 +13,20 @@ void InitializeGame(GameState *state) {
   InitWindow(800, 800, "Avoidance");
   SetTargetFPS(60);
   int monitor = GetCurrentMonitor();
-  state->gameWidth = GetMonitorWidth(monitor);
-  state->gameHeight = GetMonitorHeight(monitor);
-  SetWindowSize(state->gameWidth, state->gameHeight);
-  state->renderTexture = LoadRenderTexture(state->gameWidth, state->gameHeight);
+  state->screenWidth = GetMonitorWidth(monitor);
+  state->screenHeight = GetMonitorHeight(monitor);
+  SetWindowSize(state->screenWidth, state->screenHeight);
+  state->renderTexture = LoadRenderTexture(state->screenWidth, state->screenHeight);
   SetTextureFilter(state->renderTexture.texture, TEXTURE_FILTER_BILINEAR);
+  state->gameBoundary = (Rectangle) { GAME_LEFT, GAME_TOP, state->screenWidth - GAME_LEFT, state->screenHeight - GAME_TOP };
   state->screen = TITLE;
   state->score = 0;
-  state->positions = calloc((state->gameWidth * state->gameHeight) / FONT_SIZE, sizeof(Vector2));
+  state->positions = calloc((state->screenWidth * state->screenHeight) / FONT_SIZE, sizeof(Vector2));
   if (state->positions == NULL) {
     perror("Failed to initialize game state");
     exit(EXIT_FAILURE);
   }
-  state->directions = calloc((state->gameWidth * state->gameHeight) / FONT_SIZE, sizeof(MoveDirection));
+  state->directions = calloc((state->screenWidth * state->screenHeight) / FONT_SIZE, sizeof(MoveDirection));
   if (state->directions == NULL) {
     perror("Failed to initialize game state");
     exit(EXIT_FAILURE);
