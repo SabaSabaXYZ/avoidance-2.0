@@ -37,7 +37,7 @@ typedef struct GameState {
   Vector2 *positions;
   MoveDirection *directions;
   unsigned int character_count;
-  unsigned int score;
+  unsigned long score;
   RenderTexture2D renderTexture;
 } GameState;
 

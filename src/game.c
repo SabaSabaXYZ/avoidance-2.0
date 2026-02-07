@@ -35,6 +35,7 @@ void UpdatePositions(GameState *state) {
   if (state->screen != GAMEPLAY) {
     return;
   }
+  state->score++;
   for (unsigned int i = 0; i < state->character_count; ++i) {
     UpdatePositionByDirection(&state->positions[i], state->directions[i]);
   }

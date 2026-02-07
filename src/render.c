@@ -46,7 +46,7 @@ void DrawHelp(GameState state) {
 }
 
 void DrawScore(GameState state) {
-  const char *score = TextFormat("Score: %u", state.score);
+  const char *score = TextFormat("Score: %lu", state.score);
   int scoreLength = MeasureText(score, FONT_SIZE);
   DrawText(score, state.gameWidth - scoreLength, 0, FONT_SIZE, WHITE);
   DrawFPS(0, 0);
