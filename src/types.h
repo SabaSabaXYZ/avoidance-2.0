@@ -14,7 +14,7 @@
 #define BOX_ID 1
 #define ENEMY_START_ID 2
 
-#define PLAYER_MOVEMENT (float) FONT_SIZE
+#define PLAYER_MOVEMENT 5.0f
 
 typedef enum GameScreen {
   TITLE = 0,
@@ -23,7 +23,8 @@ typedef enum GameScreen {
 } GameScreen;
 
 typedef enum MoveDirection {
-  UP = 0,
+  NONE = 0,
+  UP,
   DOWN,
   LEFT,
   RIGHT
@@ -34,6 +35,7 @@ typedef struct GameState {
   int gameWidth;
   int gameHeight;
   Vector2 *positions;
+  MoveDirection *directions;
   unsigned int character_count;
   unsigned int score;
   RenderTexture2D renderTexture;

@@ -5,5 +5,6 @@
 
 void StartGame(GameState *state);
 void Move(GameState *state, MoveDirection direction);
+void UpdatePositions(GameState *state);
 
 #endif

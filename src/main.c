@@ -1,3 +1,4 @@
+#include "game.h"
 #include "keys.h"
 #include "render.h"
 #include "types.h"
@@ -24,12 +25,18 @@ void InitializeGame(GameState *state) {
     perror("Failed to initialize game state");
     exit(EXIT_FAILURE);
   }
+  state->directions = calloc((state->gameWidth * state->gameHeight) / FONT_SIZE, sizeof(MoveDirection));
+  if (state->directions == NULL) {
+    perror("Failed to initialize game state");
+    exit(EXIT_FAILURE);
+  }
   ToggleFullscreen();
 }
 
 void DestroyGame(GameState *state) {
   CloseWindow();
   free(state->positions);
+  free(state->directions);
 }
 
 int main(void) {
@@ -39,6 +46,7 @@ int main(void) {
   while (!WindowShouldClose()) {
     HandleKeyPress(&state);
     HandleDraw(state);
+    UpdatePositions(&state);
   }
   DestroyGame(&state);
   return 0;
