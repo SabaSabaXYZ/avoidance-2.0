@@ -1,10 +1,11 @@
+#include "keys.h"
+#include "render.h"
+#include "types.h"
 #include <raylib.h>
 #include <raymath.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "types.h"
-#include "keys.h"
-#include "render.h"
+#include <time.h>
 
 void InitializeGame(GameState *state) {
   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
@@ -32,6 +33,7 @@ void DestroyGame(GameState *state) {
 }
 
 int main(void) {
+  srand(time(NULL));
   GameState state;
   InitializeGame(&state);
   while (!WindowShouldClose()) {

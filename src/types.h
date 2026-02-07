@@ -10,6 +10,10 @@
 #define GAME_RIGHT SCREEN_WIDTH - FONT_SIZE
 #define GAME_BOTTOM SCREEN_HEIGHT - FONT_SIZE
 
+#define PLAYER_ID 0
+#define BOX_ID 1
+#define ENEMY_START_ID 2
+
 typedef enum GameScreen {
   TITLE = 0,
   GAMEPLAY,

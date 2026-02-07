@@ -1,4 +1,5 @@
 #include "render.h"
+#include <raymath.h>
 
 void DrawTextCentre(const char *text, int posY, Color color, int gameWidth) {
   const int textWidth = MeasureText(text, FONT_SIZE);
@@ -20,12 +21,12 @@ void DrawTitle(GameState state) {
 }
 
 void DrawGameplay(GameState state) {
-  const int startHeight = state.gameHeight / 4;
-  DrawTextCentre("GAME", startHeight, WHITE, state.gameWidth);
-  DrawTextCentre("GAME", startHeight + FONT_SIZE * 2, WHITE, state.gameWidth);
-  DrawTextCentre("GAME", startHeight + FONT_SIZE * 4, WHITE, state.gameWidth);
-  DrawTextCentre("GAME", startHeight + FONT_SIZE * 6, WHITE, state.gameWidth);
-  DrawTextCentre("GAME", startHeight + FONT_SIZE * 8, WHITE, state.gameWidth);
+  const Font font = GetFontDefault();
+  DrawTextEx(font, "P", state.positions[PLAYER_ID], FONT_SIZE, 0.0f, SKYBLUE);
+  DrawTextEx(font, "O", state.positions[BOX_ID], FONT_SIZE, 0.0f, GREEN);
+  for (unsigned int i = ENEMY_START_ID; i < state.character_count; ++i) {
+    DrawTextEx(font, "X", state.positions[i], FONT_SIZE, 0.0f, PINK);
+  }
 }
 
 void DrawHelp(GameState state) {
