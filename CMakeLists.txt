@@ -17,6 +17,6 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(raylib)
 
-add_executable(${PROJECT_NAME} src/main.c)
+add_executable(${PROJECT_NAME} src/main.c src/keys.c src/game.c src/render.c)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
