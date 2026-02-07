@@ -3,7 +3,7 @@
 
 #include <raylib.h>
 
-#define FONT_SIZE 20
+#define FONT_SIZE 32
 
 #define GAME_LEFT FONT_SIZE
 #define GAME_TOP FONT_SIZE
@@ -14,11 +14,20 @@
 #define BOX_ID 1
 #define ENEMY_START_ID 2
 
+#define PLAYER_MOVEMENT (float) FONT_SIZE
+
 typedef enum GameScreen {
   TITLE = 0,
   GAMEPLAY,
   HELP
 } GameScreen;
+
+typedef enum MoveDirection {
+  UP = 0,
+  DOWN,
+  LEFT,
+  RIGHT
+} MoveDirection;
 
 typedef struct GameState {
   GameScreen screen;

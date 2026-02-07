@@ -4,5 +4,6 @@
 #include "types.h"
 
 void StartGame(GameState *state);
+void Move(GameState *state, MoveDirection direction);
 
 #endif
