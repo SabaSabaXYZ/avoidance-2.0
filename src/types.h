@@ -14,7 +14,7 @@
 #define BOX_ID 1
 #define ENEMY_START_ID 2
 
-#define PLAYER_MOVEMENT 5.0f
+#define MOVEMENT_SPEED 5.0f
 
 typedef enum GameScreen {
   TITLE = 0,
