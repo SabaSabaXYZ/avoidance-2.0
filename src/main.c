@@ -8,7 +8,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-void InitializeGame(GameState *state) {
+static int GetMaxCharacters(GameState *state) {
+  return (state->screenWidth * state->screenHeight) / FONT_SIZE;
+}
+
+static void InitializeGame(GameState *state) {
   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
   InitWindow(800, 800, "Avoidance");
   SetTargetFPS(60);
@@ -21,12 +25,12 @@ void InitializeGame(GameState *state) {
   state->gameBoundary = (Rectangle) { GAME_LEFT, GAME_TOP, state->screenWidth - GAME_LEFT, state->screenHeight - GAME_TOP };
   state->screen = TITLE;
   state->score = 0;
-  state->positions = calloc((state->screenWidth * state->screenHeight) / FONT_SIZE, sizeof(Vector2));
+  state->positions = calloc(GetMaxCharacters(state), sizeof(Vector2));
   if (state->positions == NULL) {
     perror("Failed to initialize game state");
     exit(EXIT_FAILURE);
   }
-  state->directions = calloc((state->screenWidth * state->screenHeight) / FONT_SIZE, sizeof(MoveDirection));
+  state->directions = calloc(GetMaxCharacters(state), sizeof(MoveDirection));
   if (state->directions == NULL) {
     perror("Failed to initialize game state");
     exit(EXIT_FAILURE);
@@ -35,7 +39,7 @@ void InitializeGame(GameState *state) {
   HideCursor();
 }
 
-void DestroyGame(GameState *state) {
+static void DestroyGame(GameState *state) {
   CloseWindow();
   free(state->positions);
   free(state->directions);

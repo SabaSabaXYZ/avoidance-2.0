@@ -1,7 +1,7 @@
 #include "keys.h"
 #include "game.h"
 
-void HandleTitleKeyPress(GameState *state) {
+static void HandleTitleKeyPress(GameState *state) {
   if (IsKeyPressed(KEY_H)) {
     state->screen = HELP;
   }
@@ -10,13 +10,13 @@ void HandleTitleKeyPress(GameState *state) {
   }
 }
 
-void HandleHelpKeyPress(GameState *state) {
+static void HandleHelpKeyPress(GameState *state) {
   if (GetKeyPressed()) {
     state->screen = TITLE;
   }
 }
 
-void HandleGameplayKeyPress(GameState *state) {
+static void HandleGameplayKeyPress(GameState *state) {
   if (IsKeyPressed(KEY_Q)) {
     state->screen = TITLE;
   }

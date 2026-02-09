@@ -13,7 +13,7 @@ void StartGame(GameState *state) {
   player->y = box->y - FONT_SIZE * 2;
 }
 
-void UpdatePositionByDirection(GameState *state, Vector2 *position, MoveDirection direction) {
+static void UpdatePositionByDirection(GameState *state, Vector2 *position, MoveDirection direction) {
   switch (direction) {
     case UP:
       position->y -= MOVEMENT_SPEED;
