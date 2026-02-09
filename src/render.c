@@ -30,7 +30,7 @@ static void DrawGameplay(GameState state) {
 }
 
 static void DrawHelp(GameState state) {
-  const int startWidth = state.screenWidth / 4;
+  const int startWidth = state.screenWidth / 5;
   const int startHeight = state.screenHeight / 2 - 14 * FONT_SIZE;
   DrawText("Use W, A, S, and D to move up, left, down, and right respectively.", startWidth, startHeight, FONT_SIZE, WHITE);
   DrawText("Press Q during an active game to return to the main menu.", startWidth, startHeight + FONT_SIZE * 2, FONT_SIZE, WHITE);
