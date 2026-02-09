@@ -1,4 +1,5 @@
 #include "game.h"
+#include <raymath.h>
 
 void StartGame(GameState *state) {
   state->character_count = 3;
@@ -29,6 +30,8 @@ void UpdatePositionByDirection(GameState *state, Vector2 *position, MoveDirectio
     default:
       break;
   }
+  position->x = Clamp(position->x, state->gameBoundary.x, state->gameBoundary.width);
+  position->y = Clamp(position->y, state->gameBoundary.y, state->gameBoundary.height);
 }
 
 void UpdatePositions(GameState *state) {
