@@ -22,10 +22,10 @@ static void DrawTitle(GameState state) {
 
 static void DrawGameplay(GameState state) {
   const Font font = GetFontDefault();
-  DrawTextEx(font, "P", state.positions[PLAYER_ID], FONT_SIZE, 0.0f, SKYBLUE);
-  DrawTextEx(font, "O", state.positions[BOX_ID], FONT_SIZE, 0.0f, GREEN);
-  for (unsigned int i = ENEMY_START_ID; i < state.character_count; ++i) {
-    DrawTextEx(font, "X", state.positions[i], FONT_SIZE, 0.0f, PINK);
+  DrawTextEx(font,BOX_CHARACTER, state.positions[BOX_ID], FONT_SIZE, 0.0f, GREEN);
+  DrawTextEx(font,PLAYER_CHARACTER, state.positions[PLAYER_ID], FONT_SIZE, 0.0f, SKYBLUE);
+  for (unsigned int i = ENEMY_START_ID; i < state.characterCount; ++i) {
+    DrawTextEx(font,ENEMY_CHARACTER, state.positions[i], FONT_SIZE, 0.0f, PINK);
   }
 }
 

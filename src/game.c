@@ -1,18 +1,6 @@
 #include "game.h"
 #include <raymath.h>
 
-void StartGame(GameState *state) {
-  state->character_count = 3;
-  state->score = 0;
-  state->screen = GAMEPLAY;
-  Vector2 *player = &state->positions[PLAYER_ID];
-  Vector2 *box = &state->positions[BOX_ID];
-  box->x = (float) state->screenWidth / 2;
-  box->y = (float) state->screenHeight / 2;
-  player->x = box->x - FONT_SIZE * 2;
-  player->y = box->y - FONT_SIZE * 2;
-}
-
 static void UpdatePositionByDirection(GameState *state, Vector2 *position, MoveDirection direction) {
   switch (direction) {
     case UP:
@@ -34,12 +22,24 @@ static void UpdatePositionByDirection(GameState *state, Vector2 *position, MoveD
   position->y = Clamp(position->y, state->gameBoundary.y, state->gameBoundary.height);
 }
 
+void StartGame(GameState *state) {
+  state->characterCount = 3;
+  state->score = 0;
+  state->screen = GAMEPLAY;
+  Vector2 *box = &state->positions[BOX_ID];
+  box->x = (float) state->screenWidth / 2;
+  box->y = (float) state->screenHeight / 2;
+  Vector2 *player = &state->positions[PLAYER_ID];
+  player->x = box->x - FONT_SIZE * 2;
+  player->y = box->y - FONT_SIZE * 2;
+}
+
 void UpdatePositions(GameState *state) {
   if (state->screen != GAMEPLAY) {
     return;
   }
   state->score++;
-  for (unsigned int i = 0; i < state->character_count; ++i) {
+  for (unsigned int i = 0; i < state->characterCount; ++i) {
     UpdatePositionByDirection(state, &state->positions[i], state->directions[i]);
   }
 }

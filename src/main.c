@@ -25,6 +25,8 @@ static void InitializeGame(GameState *state) {
   state->gameBoundary = (Rectangle) { GAME_LEFT, GAME_TOP, state->screenWidth - GAME_LEFT, state->screenHeight - GAME_TOP };
   state->screen = TITLE;
   state->score = 0;
+  const Font font = GetFontDefault();
+  state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, FONT_SIZE, 0.0f);
   state->positions = calloc(GetMaxCharacters(state), sizeof(Vector2));
   if (state->positions == NULL) {
     perror("Failed to initialize game state");

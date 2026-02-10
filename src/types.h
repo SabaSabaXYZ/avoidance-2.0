@@ -10,9 +10,13 @@
 #define GAME_RIGHT SCREEN_WIDTH - FONT_SIZE
 #define GAME_BOTTOM SCREEN_HEIGHT - FONT_SIZE
 
-#define PLAYER_ID 0
-#define BOX_ID 1
+#define BOX_ID 0
+#define PLAYER_ID 1
 #define ENEMY_START_ID 2
+
+#define PLAYER_CHARACTER "P"
+#define BOX_CHARACTER "O"
+#define ENEMY_CHARACTER "X"
 
 #define MOVEMENT_SPEED 5.0f
 
@@ -37,7 +41,8 @@ typedef struct GameState {
   Rectangle gameBoundary;
   Vector2 *positions;
   MoveDirection *directions;
-  unsigned int character_count;
+  Vector2 characterDimensions;
+  unsigned int characterCount;
   unsigned long score;
   RenderTexture2D renderTexture;
 } GameState;
