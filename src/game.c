@@ -45,6 +45,15 @@ static void UpdateBoxDirection(GameState *state) {
   state->directions[BOX_ID] = NONE;
 }
 
+static void CheckGameEnd(GameState *state) {
+  Vector2 initialBoxPosition = state->positions[BOX_ID];
+  RestrictToGameArea(state, &state->positions[BOX_ID]);
+  if (initialBoxPosition.x != state->positions[BOX_ID].x || initialBoxPosition.y != state->positions[BOX_ID].y) {
+    state->screen = TITLE;
+    return;
+  }
+}
+
 void StartGame(GameState *state) {
   state->characterCount = 3;
   state->score = 0;
@@ -67,12 +76,7 @@ void UpdatePositions(GameState *state) {
     UpdatePositionByDirection(state, &state->positions[i], state->directions[i]);
   }
   UpdateBoxDirection(state);
-  Vector2 initialBoxPosition = state->positions[BOX_ID];
-  RestrictToGameArea(state, &state->positions[BOX_ID]);
-  if (initialBoxPosition.x != state->positions[BOX_ID].x || initialBoxPosition.y != state->positions[BOX_ID].y) {
-    state->screen = TITLE;
-    return;
-  }
+  CheckGameEnd(state);
   for (unsigned int i = PLAYER_ID; i < state->characterCount; ++i) {
     RestrictToGameArea(state, &state->positions[i]);
   }
