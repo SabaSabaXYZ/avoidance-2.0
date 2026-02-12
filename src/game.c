@@ -103,6 +103,9 @@ void UpdatePositions(GameState *state) {
     return;
   }
   state->score++;
+  if (state->score % 1000 == 0) {
+    state->characterCount++;
+  }
   for (unsigned int i = ENEMY_START_ID; i < state->characterCount; ++i) {
     InitializeEnemy(state, &state->positions[i], &state->directions[i]);
   }
