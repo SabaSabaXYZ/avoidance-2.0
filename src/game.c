@@ -38,7 +38,7 @@ static void UpdatePositionByDirection(GameState *state, Vector2 *position, MoveD
 
 static void UpdateBoxDirection(GameState *state) {
   Rectangle boxRectangle = VectorToRectangle(state, state->positions[BOX_ID]);
-  for (unsigned int i = PLAYER_ID; i < state->characterCount; ++i) {
+  for (unsigned int i = state->characterCount - 1; i >= PLAYER_ID; --i) {
     if (CheckCollisionRecs(boxRectangle, VectorToRectangle(state, state->positions[i]))) {
       state->directions[BOX_ID] = state->directions[i];
       return;
@@ -86,6 +86,11 @@ static void InitializeEnemy(GameState *state, Vector2 *position, MoveDirection *
 }
 
 void StartGame(GameState *state) {
+  for (int i = ENEMY_START_ID; i < state->characterCount; ++i) {
+    Vector2 *enemy = &state->positions[i];
+    enemy->x = -1.0f;
+    enemy->y = -1.0f;
+  }
   state->characterCount = 3;
   state->score = 0;
   state->screen = GAMEPLAY;
