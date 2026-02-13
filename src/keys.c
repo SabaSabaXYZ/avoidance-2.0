@@ -20,16 +20,16 @@ static void HandleGameplayKeyPress(GameState *state) {
   if (IsKeyPressed(KEY_Q)) {
     state->screen = TITLE;
   }
-  else if (IsKeyDown(KEY_A)) {
+  else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
     Move(state, LEFT);
   }
-  else if (IsKeyDown(KEY_W)) {
+  else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) {
     Move(state, UP);
   }
-  else if (IsKeyDown(KEY_D)) {
+  else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
     Move(state, RIGHT);
   }
-  else if (IsKeyDown(KEY_S)) {
+  else if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) {
     Move(state, DOWN);
   }
   else if (!GetKeyPressed()) {

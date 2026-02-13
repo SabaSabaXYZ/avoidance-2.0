@@ -13,7 +13,7 @@ static void DrawBoundary(GameState state) {
 static void DrawTitle(GameState state) {
   const int startHeight = state.screenHeight / 2 - 5 * FONT_SIZE;
   DrawTextCentre("==Avoidance 2.0==", startHeight, WHITE, state.screenWidth);
-  DrawTextCentre("Move: W/A/S/D", startHeight + FONT_SIZE * 2, WHITE, state.screenWidth);
+  DrawTextCentre("Move: W/A/S/D or Arrow Keys", startHeight + FONT_SIZE * 2, WHITE, state.screenWidth);
   DrawTextCentre("Help: H", startHeight + FONT_SIZE * 4, WHITE, state.screenWidth);
   DrawTextCentre("Play: P", startHeight + FONT_SIZE * 6, WHITE, state.screenWidth);
   DrawTextCentre("Stop Game: Q", startHeight + FONT_SIZE * 8, WHITE, state.screenWidth);
