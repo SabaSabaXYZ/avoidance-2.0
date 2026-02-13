@@ -8,10 +8,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-static int GetMaxCharacters(GameState *state) {
-  return (state->screenWidth * state->screenHeight) / FONT_SIZE;
-}
-
 static void InitializeGame(GameState *state) {
   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
   InitWindow(800, 800, "Avoidance");
@@ -27,12 +23,12 @@ static void InitializeGame(GameState *state) {
   state->score = 0;
   const Font font = GetFontDefault();
   state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, FONT_SIZE, 0.0f);
-  state->positions = calloc(GetMaxCharacters(state), sizeof(Vector2));
+  state->positions = calloc(MAX_CHARACTERS, sizeof(Vector2));
   if (state->positions == NULL) {
     perror("Failed to initialize game state");
     exit(EXIT_FAILURE);
   }
-  state->directions = calloc(GetMaxCharacters(state), sizeof(MoveDirection));
+  state->directions = calloc(MAX_CHARACTERS, sizeof(MoveDirection));
   if (state->directions == NULL) {
     perror("Failed to initialize game state");
     exit(EXIT_FAILURE);

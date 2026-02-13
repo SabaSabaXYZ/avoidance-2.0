@@ -108,7 +108,7 @@ void UpdatePositions(GameState *state) {
     return;
   }
   state->score++;
-  if (state->score % 1000 == 0) {
+  if (state->score % 1000 == 0 && state->characterCount < MAX_CHARACTERS) {
     state->characterCount++;
   }
   for (unsigned int i = ENEMY_START_ID; i < state->characterCount; ++i) {

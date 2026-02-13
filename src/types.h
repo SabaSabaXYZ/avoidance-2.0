@@ -19,6 +19,7 @@
 #define ENEMY_CHARACTER "X"
 
 #define MOVEMENT_SPEED 8.0f
+#define MAX_CHARACTERS 30000
 
 typedef enum GameScreen {
   TITLE = 0,
