@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.28.3)
-project(Avoidance C)
+project(Avoidance2 C)
 
+set(CMAKE_BUILD_TYPE RELEASE)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS YES)
