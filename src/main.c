@@ -48,7 +48,7 @@ static void DestroyGame(GameState *state) {
 }
 
 int main(void) {
-  srand(time(NULL));
+  SetRandomSeed(time(NULL));
   GameState state;
   InitializeGame(&state);
   while (!WindowShouldClose()) {
