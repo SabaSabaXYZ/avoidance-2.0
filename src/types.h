@@ -18,7 +18,7 @@
 #define BOX_CHARACTER "O"
 #define ENEMY_CHARACTER "X"
 
-#define MOVEMENT_SPEED 5.0f
+#define MOVEMENT_SPEED 8.0f
 
 typedef enum GameScreen {
   TITLE = 0,
