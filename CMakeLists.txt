@@ -20,4 +20,9 @@ FetchContent_MakeAvailable(raylib)
 
 add_executable(${PROJECT_NAME} src/main.c src/keys.c src/game.c src/render.c)
 
+find_library(MATH_LIB m)
+if (MATH_LIB)
+  target_link_libraries(${PROJECT_NAME} PRIVATE ${MATH_LIB})
+endif ()
+
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
