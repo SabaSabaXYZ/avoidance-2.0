@@ -40,8 +40,8 @@ typedef struct GameState {
   int screenWidth;
   int screenHeight;
   Rectangle gameBoundary;
-  Vector2 *positions;
-  MoveDirection *directions;
+  Vector2 positions[MAX_CHARACTERS];
+  MoveDirection directions[MAX_CHARACTERS];
   Vector2 characterDimensions;
   unsigned int characterCount;
   unsigned long score;

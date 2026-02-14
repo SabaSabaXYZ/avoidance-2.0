@@ -4,8 +4,6 @@
 #include "types.h"
 #include <raylib.h>
 #include <raymath.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
 
 static void InitializeGame(GameState *state) {
@@ -23,24 +21,12 @@ static void InitializeGame(GameState *state) {
   state->score = 0;
   const Font font = GetFontDefault();
   state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, FONT_SIZE, 0.0f);
-  state->positions = calloc(MAX_CHARACTERS, sizeof(Vector2));
-  if (state->positions == NULL) {
-    perror("Failed to initialize game state");
-    exit(EXIT_FAILURE);
-  }
-  state->directions = calloc(MAX_CHARACTERS, sizeof(MoveDirection));
-  if (state->directions == NULL) {
-    perror("Failed to initialize game state");
-    exit(EXIT_FAILURE);
-  }
   ToggleFullscreen();
   HideCursor();
 }
 
 static void DestroyGame(GameState *state) {
   CloseWindow();
-  free(state->positions);
-  free(state->directions);
 }
 
 int main(void) {
