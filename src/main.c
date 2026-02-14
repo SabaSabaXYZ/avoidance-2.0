@@ -29,14 +29,18 @@ static void DestroyGame(GameState *state) {
   CloseWindow();
 }
 
+static void ExecuteGameFrame(GameState *state) {
+  HandleKeyPress(state);
+  HandleDraw(*state);
+  UpdatePositions(state);
+}
+
 int main(void) {
   SetRandomSeed(time(NULL));
   GameState state;
   InitializeGame(&state);
   while (!WindowShouldClose()) {
-    HandleKeyPress(&state);
-    HandleDraw(state);
-    UpdatePositions(&state);
+    ExecuteGameFrame(&state);
   }
   DestroyGame(&state);
   return 0;
