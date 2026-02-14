@@ -1,5 +1,6 @@
 .cache/**
 Avoidance2
+*.exe
 CMakeCache.txt
 CMakeFiles/**
 *.cmake
