@@ -21,8 +21,10 @@ static void InitializeGame(GameState *state) {
   state->score = 0;
   const Font font = GetFontDefault();
   state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, FONT_SIZE, 0.0f);
+#ifndef TARGET_WEB
   ToggleFullscreen();
   HideCursor();
+#endif
 }
 
 static void DestroyGame(GameState *state) {
