@@ -7,54 +7,59 @@ static void DrawTextCentre(const char *text, int posY, Color color, int screenWi
 }
 
 static void DrawBoundary(GameState state) {
-  DrawRectangleLinesEx(state.gameBoundary, 1.0f, RED);
+  DrawRectangleLinesEx(state.gameBoundary, 1.0f, state.theme[state.selectedTheme].borderColour);
 }
 
 static void DrawTitle(GameState state) {
-  const int startHeight = state.screenHeight / 2 - 5 * FONT_SIZE;
-  DrawTextCentre("==Avoidance 2.0==", startHeight, WHITE, state.screenWidth);
-  DrawTextCentre("Move: W/A/S/D or Arrow Keys", startHeight + FONT_SIZE * 2, WHITE, state.screenWidth);
-  DrawTextCentre("Help: H", startHeight + FONT_SIZE * 4, WHITE, state.screenWidth);
-  DrawTextCentre("Play: P", startHeight + FONT_SIZE * 6, WHITE, state.screenWidth);
-  DrawTextCentre("Stop Game: Q", startHeight + FONT_SIZE * 8, WHITE, state.screenWidth);
+  const Theme theme = state.theme[state.selectedTheme];
+  const int startHeight = state.screenHeight / 2 - 6 * FONT_SIZE;
+  DrawTextCentre("==Avoidance 2.0==", startHeight, theme.foregroundColour, state.screenWidth);
+  DrawTextCentre("Move: W/A/S/D or Arrow Keys", startHeight + FONT_SIZE * 2, theme.foregroundColour, state.screenWidth);
+  DrawTextCentre("Help: H", startHeight + FONT_SIZE * 4, theme.foregroundColour, state.screenWidth);
+  DrawTextCentre("Play: P", startHeight + FONT_SIZE * 6, theme.foregroundColour, state.screenWidth);
+  DrawTextCentre("Stop Game: Q", startHeight + FONT_SIZE * 8, theme.foregroundColour, state.screenWidth);
+  DrawTextCentre("Toggle Theme: T", startHeight + FONT_SIZE * 10, theme.foregroundColour, state.screenWidth);
 #ifndef TARGET_WEB
-  DrawTextCentre("Quit: Esc", startHeight + FONT_SIZE * 10, WHITE, state.screenWidth);
+  DrawTextCentre("Quit: Esc", startHeight + FONT_SIZE * 12, theme.foregroundColour, state.screenWidth);
 #endif
 }
 
 static void DrawGameplay(GameState state) {
+  const Theme theme = state.theme[state.selectedTheme];
   const Font font = GetFontDefault();
-  DrawTextEx(font,BOX_CHARACTER, state.positions[BOX_ID], FONT_SIZE, 0.0f, GREEN);
-  DrawTextEx(font,PLAYER_CHARACTER, state.positions[PLAYER_ID], FONT_SIZE, 0.0f, SKYBLUE);
+  DrawTextEx(font,BOX_CHARACTER, state.positions[BOX_ID], FONT_SIZE, 0.0f, theme.boxColour);
+  DrawTextEx(font,PLAYER_CHARACTER, state.positions[PLAYER_ID], FONT_SIZE, 0.0f, theme.playerColour);
   for (unsigned int i = ENEMY_START_ID; i < state.characterCount; ++i) {
-    DrawTextEx(font,ENEMY_CHARACTER, state.positions[i], FONT_SIZE, 0.0f, PINK);
+    DrawTextEx(font,ENEMY_CHARACTER, state.positions[i], FONT_SIZE, 0.0f, theme.enemyColour);
   }
 }
 
 static void DrawHelp(GameState state) {
+  const Theme theme = state.theme[state.selectedTheme];
   const int startWidth = state.screenWidth / 5;
   const int startHeight = state.screenHeight / 2 - 14 * FONT_SIZE;
-  DrawText("Use W, A, S, and D to move up, left, down, and right respectively.", startWidth, startHeight, FONT_SIZE, WHITE);
-  DrawText("Press Q during an active game to return to the main menu.", startWidth, startHeight + FONT_SIZE * 2, FONT_SIZE, WHITE);
+  DrawText("Use W, A, S, and D to move up, left, down, and right respectively.", startWidth, startHeight, FONT_SIZE, theme.foregroundColour);
+  DrawText("Press Q during an active game to return to the main menu.", startWidth, startHeight + FONT_SIZE * 2, FONT_SIZE, theme.foregroundColour);
 #ifndef TARGET_WEB
-  DrawText("Press Esc to terminate the application.", startWidth, startHeight + FONT_SIZE * 4, FONT_SIZE, WHITE);
+  DrawText("Press Esc to terminate the application.", startWidth, startHeight + FONT_SIZE * 4, FONT_SIZE, theme.foregroundColour);
 #else
-  DrawText("Press Esc to exit fullscreen mode.", startWidth, startHeight + FONT_SIZE * 4, FONT_SIZE, WHITE);
+  DrawText("Press Esc to exit fullscreen mode.", startWidth, startHeight + FONT_SIZE * 4, FONT_SIZE, theme.foregroundColour);
 #endif
-  DrawText("OBJECTIVE:", startWidth, startHeight + FONT_SIZE * 8, FONT_SIZE, WHITE);
-  DrawText("Push the box around the screen, making sure that it is not pushed off the edge.", startWidth, startHeight + FONT_SIZE * 12, FONT_SIZE, WHITE);
-  DrawText("Box thieves will appear sporadically to steal the box.", startWidth, startHeight + FONT_SIZE * 14, FONT_SIZE, WHITE);
-  DrawText("Your objective is to keep the box on-screen for as long as possible.", startWidth, startHeight + FONT_SIZE * 16, FONT_SIZE, WHITE);
-  DrawText("P: Player", startWidth + FONT_SIZE * 4, startHeight + FONT_SIZE * 20, FONT_SIZE, WHITE);
-  DrawText("O: Box", startWidth + FONT_SIZE * 4, startHeight + FONT_SIZE * 22, FONT_SIZE, WHITE);
-  DrawText("X: Box Thief", startWidth + FONT_SIZE * 4, startHeight + FONT_SIZE * 24, FONT_SIZE, WHITE);
-  DrawText("Press any key to return to the main menu.", startWidth, startHeight + FONT_SIZE * 28, FONT_SIZE, WHITE);
+  DrawText("OBJECTIVE:", startWidth, startHeight + FONT_SIZE * 8, FONT_SIZE, theme.foregroundColour);
+  DrawText("Push the box around the screen, making sure that it is not pushed off the edge.", startWidth, startHeight + FONT_SIZE * 12, FONT_SIZE, theme.foregroundColour);
+  DrawText("Box thieves will appear sporadically to steal the box.", startWidth, startHeight + FONT_SIZE * 14, FONT_SIZE, theme.foregroundColour);
+  DrawText("Your objective is to keep the box on-screen for as long as possible.", startWidth, startHeight + FONT_SIZE * 16, FONT_SIZE, theme.foregroundColour);
+  DrawText("P: Player", startWidth + FONT_SIZE * 4, startHeight + FONT_SIZE * 20, FONT_SIZE, theme.foregroundColour);
+  DrawText("O: Box", startWidth + FONT_SIZE * 4, startHeight + FONT_SIZE * 22, FONT_SIZE, theme.foregroundColour);
+  DrawText("X: Box Thief", startWidth + FONT_SIZE * 4, startHeight + FONT_SIZE * 24, FONT_SIZE, theme.foregroundColour);
+  DrawText("Press any key to return to the main menu.", startWidth, startHeight + FONT_SIZE * 28, FONT_SIZE, theme.foregroundColour);
 }
 
 static void DrawScore(GameState state) {
+  const Theme theme = state.theme[state.selectedTheme];
   const char *score = TextFormat("Score: %lu", state.score);
   int scoreLength = MeasureText(score, FONT_SIZE);
-  DrawText(score, state.screenWidth - scoreLength, 0, FONT_SIZE, WHITE);
+  DrawText(score, state.screenWidth - scoreLength, 0, FONT_SIZE, theme.foregroundColour);
   DrawFPS(0, 0);
 }
 
@@ -79,8 +84,9 @@ static void DrawToScreen(GameState state, Texture2D texture) {
 }
 
 void HandleDraw(GameState state) {
+  const Theme theme = state.theme[state.selectedTheme];
   BeginTextureMode(state.renderTexture);
-  ClearBackground(BLACK);
+  ClearBackground(theme.backgroundColour);
   DrawBoundary(state);
   switch (state.screen) {
     case TITLE:

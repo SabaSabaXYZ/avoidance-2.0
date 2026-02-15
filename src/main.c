@@ -6,6 +6,51 @@
 #include <raymath.h>
 #include <time.h>
 
+Theme defaultTheme = {
+  .backgroundColour = BLACK,
+  .foregroundColour = WHITE,
+  .borderColour = RED,
+  .boxColour = GREEN,
+  .playerColour = SKYBLUE,
+  .enemyColour = PINK
+};
+
+Theme lightTheme = {
+  .backgroundColour = LIGHTGRAY,
+  .foregroundColour = BLACK,
+  .borderColour = DARKBROWN,
+  .boxColour = DARKGREEN,
+  .playerColour = DARKBLUE,
+  .enemyColour = MAROON
+};
+
+Theme greyTheme = {
+  .backgroundColour = DARKGRAY,
+  .foregroundColour = RAYWHITE,
+  .borderColour = BEIGE,
+  .boxColour = GREEN,
+  .playerColour = SKYBLUE,
+  .enemyColour = MAGENTA
+};
+
+Theme goldTheme = {
+  .backgroundColour = DARKBROWN,
+  .foregroundColour = GOLD,
+  .borderColour = YELLOW,
+  .boxColour = YELLOW,
+  .playerColour = PURPLE,
+  .enemyColour = BEIGE
+};
+
+Theme purpleTheme = {
+  .backgroundColour = DARKPURPLE,
+  .foregroundColour = YELLOW,
+  .borderColour = RED,
+  .boxColour = GREEN,
+  .playerColour = SKYBLUE,
+  .enemyColour = PINK
+};
+
 static void InitializeGame(GameState *state) {
   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
   InitWindow(800, 800, "Avoidance");
@@ -21,6 +66,12 @@ static void InitializeGame(GameState *state) {
   state->score = 0;
   const Font font = GetFontDefault();
   state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, FONT_SIZE, 0.0f);
+  state->selectedTheme = 0;
+  state->theme[0] = defaultTheme;
+  state->theme[1] = lightTheme;
+  state->theme[2] = greyTheme;
+  state->theme[3] = goldTheme;
+  state->theme[4] = purpleTheme;
 #ifndef TARGET_WEB
   ToggleFullscreen();
   HideCursor();

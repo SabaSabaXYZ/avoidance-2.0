@@ -21,6 +21,8 @@
 #define MOVEMENT_SPEED 8.0f
 #define MAX_CHARACTERS 30000
 
+#define THEME_COUNT 5
+
 typedef enum GameScreen {
   TITLE = 0,
   GAMEPLAY,
@@ -35,6 +37,15 @@ typedef enum MoveDirection {
   RIGHT
 } MoveDirection;
 
+typedef struct Theme {
+  Color backgroundColour;
+  Color foregroundColour;
+  Color borderColour;
+  Color boxColour;
+  Color playerColour;
+  Color enemyColour;
+} Theme;
+
 typedef struct GameState {
   GameScreen screen;
   int screenWidth;
@@ -46,6 +57,8 @@ typedef struct GameState {
   unsigned int characterCount;
   unsigned long score;
   RenderTexture2D renderTexture;
+  unsigned int selectedTheme;
+  Theme theme[THEME_COUNT];
 } GameState;
 
 #endif

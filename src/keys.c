@@ -1,6 +1,12 @@
 #include "keys.h"
 #include "game.h"
 
+static void HandleGlobalKeyPress(GameState *state) {
+  if (IsKeyPressed(KEY_T)) {
+    state->selectedTheme = (state->selectedTheme + 1) % THEME_COUNT;
+  }
+}
+
 static void HandleTitleKeyPress(GameState *state) {
   if (IsKeyPressed(KEY_H)) {
     state->screen = HELP;
@@ -38,6 +44,7 @@ static void HandleGameplayKeyPress(GameState *state) {
 }
 
 void HandleKeyPress(GameState *state) {
+  HandleGlobalKeyPress(state);
   switch (state->screen) {
     case TITLE:
       HandleTitleKeyPress(state);
