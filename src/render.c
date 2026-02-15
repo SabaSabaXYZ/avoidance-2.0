@@ -21,6 +21,8 @@ static void DrawTitle(GameState state) {
   DrawTextCentre("Toggle Theme: T", startHeight + FONT_SIZE * 10, theme.foregroundColour, state.screenWidth);
 #ifndef TARGET_WEB
   DrawTextCentre("Quit: Esc", startHeight + FONT_SIZE * 12, theme.foregroundColour, state.screenWidth);
+#else
+  DrawTextCentre("Exit Fullscreen: Esc", startHeight + FONT_SIZE * 12, theme.foregroundColour, state.screenWidth);
 #endif
 }
 
