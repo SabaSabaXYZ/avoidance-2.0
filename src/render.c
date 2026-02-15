@@ -34,7 +34,7 @@ static void DrawHelp(GameState state) {
   const int startHeight = state.screenHeight / 2 - 14 * FONT_SIZE;
   DrawText("Use W, A, S, and D to move up, left, down, and right respectively.", startWidth, startHeight, FONT_SIZE, WHITE);
   DrawText("Press Q during an active game to return to the main menu.", startWidth, startHeight + FONT_SIZE * 2, FONT_SIZE, WHITE);
-  DrawText("Press Q while on the main menu to terminate the application.", startWidth, startHeight + FONT_SIZE * 4, FONT_SIZE, WHITE);
+  DrawText("Press Esc to terminate the application.", startWidth, startHeight + FONT_SIZE * 4, FONT_SIZE, WHITE);
   DrawText("OBJECTIVE:", startWidth, startHeight + FONT_SIZE * 8, FONT_SIZE, WHITE);
   DrawText("Push the box around the screen, making sure that it is not pushed off the edge.", startWidth, startHeight + FONT_SIZE * 12, FONT_SIZE, WHITE);
   DrawText("Box thieves will appear sporadically to steal the box.", startWidth, startHeight + FONT_SIZE * 14, FONT_SIZE, WHITE);
