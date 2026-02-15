@@ -21,7 +21,7 @@
 #define MOVEMENT_SPEED 8.0f
 #define MAX_CHARACTERS 30000
 
-#define THEME_COUNT 5
+#define THEME_COUNT 6
 
 typedef enum GameScreen {
   TITLE = 0,

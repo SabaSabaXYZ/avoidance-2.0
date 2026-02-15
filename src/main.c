@@ -51,6 +51,25 @@ Theme purpleTheme = {
   .enemyColour = PINK
 };
 
+Theme greenTheme = {
+  .backgroundColour = DARKGREEN,
+  .foregroundColour = LIGHTGRAY,
+  .borderColour = GOLD,
+  .boxColour = GREEN,
+  .playerColour = SKYBLUE,
+  .enemyColour = PINK
+};
+
+static void InitializeThemes(GameState *state) {
+  state->selectedTheme = 0;
+  state->theme[0] = defaultTheme;
+  state->theme[1] = lightTheme;
+  state->theme[2] = greyTheme;
+  state->theme[3] = goldTheme;
+  state->theme[4] = purpleTheme;
+  state->theme[5] = greenTheme;
+}
+
 static void InitializeGame(GameState *state) {
   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
   InitWindow(800, 800, "Avoidance");
@@ -66,19 +85,14 @@ static void InitializeGame(GameState *state) {
   state->score = 0;
   const Font font = GetFontDefault();
   state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, FONT_SIZE, 0.0f);
-  state->selectedTheme = 0;
-  state->theme[0] = defaultTheme;
-  state->theme[1] = lightTheme;
-  state->theme[2] = greyTheme;
-  state->theme[3] = goldTheme;
-  state->theme[4] = purpleTheme;
+  InitializeThemes(state);
 #ifndef TARGET_WEB
   ToggleFullscreen();
   HideCursor();
 #endif
 }
 
-static void DestroyGame(GameState *state) {
+static void DestroyGame() {
   CloseWindow();
 }
 
@@ -95,6 +109,6 @@ int main(void) {
   while (!WindowShouldClose()) {
     ExecuteGameFrame(&state);
   }
-  DestroyGame(&state);
+  DestroyGame();
   return 0;
 }
