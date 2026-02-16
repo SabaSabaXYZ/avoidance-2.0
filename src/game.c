@@ -13,7 +13,7 @@ static Rectangle VectorToRectangle(GameState *state, Vector2 vector) {
 }
 
 static void RestrictToGameArea(GameState *state, Vector2 *position) {
-  position->x = Clamp(position->x, state->gameBoundary.x, state->gameBoundary.width);
+  position->x = Clamp(position->x, state->gameBoundary.x, state->gameBoundary.width - state->characterDimensions.x);
   position->y = Clamp(position->y, state->gameBoundary.y, state->gameBoundary.height);
 }
 
