@@ -83,6 +83,7 @@ static void InitializeGame(GameState *state) {
   state->gameBoundary = (Rectangle) { GAME_LEFT, GAME_TOP, state->screenWidth - GAME_LEFT, state->screenHeight - GAME_TOP };
   state->screen = TITLE;
   state->score = 0;
+  state->characterCount = 2;
   const Font font = GetFontDefault();
   state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, FONT_SIZE, 0.0f);
   InitializeThemes(state);
