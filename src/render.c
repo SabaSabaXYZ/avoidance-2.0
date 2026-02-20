@@ -59,12 +59,9 @@ static void DrawHelp(GameState state) {
 
 static void DrawScore(GameState state) {
   const Theme theme = state.theme[state.selectedTheme];
-  const char *score = TextFormat("Score: %lu", state.score);
-  const char *level = TextFormat("Level: %u", state.characterCount - 2);
+  const char *score = TextFormat("Score: %lu Level: %u", state.score, state.characterCount - 2);
   int scoreLength = MeasureText(score, FONT_SIZE);
-  int levelLength = MeasureText(level, FONT_SIZE);
-  DrawText(level, state.screenWidth - levelLength, 0, FONT_SIZE, theme.foregroundColour);
-  DrawText(score, state.screenWidth - (scoreLength + levelLength + FONT_SIZE), 0, FONT_SIZE, theme.foregroundColour);
+  DrawText(score, state.screenWidth - scoreLength, 0, FONT_SIZE, theme.foregroundColour);
   DrawFPS(0, 0);
 }
 
