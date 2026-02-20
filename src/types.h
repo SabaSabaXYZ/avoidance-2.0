@@ -19,7 +19,7 @@
 #define ENEMY_CHARACTER "X"
 
 #define MOVEMENT_SPEED 8.0f
-#define MAX_CHARACTERS 30000
+#define MAX_CHARACTERS 2048
 
 #define THEME_COUNT 6
 
