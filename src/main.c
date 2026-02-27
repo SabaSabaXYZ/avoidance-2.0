@@ -99,7 +99,7 @@ static void DestroyGame() {
 
 static void ExecuteGameFrame(GameState *state) {
   HandleKeyPress(state);
-  HandleDraw(*state);
+  HandleDraw(state);
   UpdatePositions(state);
 }
 

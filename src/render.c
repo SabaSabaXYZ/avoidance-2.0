@@ -6,40 +6,40 @@ static void DrawTextCentre(const char *text, int posY, Color color, int screenWi
   DrawText(text, (screenWidth - textWidth) / 2, posY, FONT_SIZE, color);
 }
 
-static void DrawBoundary(GameState state) {
-  DrawRectangleLinesEx(state.gameBoundary, 1.0f, state.theme[state.selectedTheme].borderColour);
+static void DrawBoundary(GameState *state) {
+  DrawRectangleLinesEx(state->gameBoundary, 1.0f, state->theme[state->selectedTheme].borderColour);
 }
 
-static void DrawTitle(GameState state) {
-  const Theme theme = state.theme[state.selectedTheme];
-  const int startHeight = state.screenHeight / 2 - 6 * FONT_SIZE;
-  DrawTextCentre("==Avoidance 2.0==", startHeight, theme.foregroundColour, state.screenWidth);
-  DrawTextCentre("Move: W/A/S/D or Arrow Keys", startHeight + FONT_SIZE * 2, theme.foregroundColour, state.screenWidth);
-  DrawTextCentre("Help: H", startHeight + FONT_SIZE * 4, theme.foregroundColour, state.screenWidth);
-  DrawTextCentre("Play: P", startHeight + FONT_SIZE * 6, theme.foregroundColour, state.screenWidth);
-  DrawTextCentre("Stop Game: Q", startHeight + FONT_SIZE * 8, theme.foregroundColour, state.screenWidth);
-  DrawTextCentre("Toggle Theme: T", startHeight + FONT_SIZE * 10, theme.foregroundColour, state.screenWidth);
+static void DrawTitle(GameState *state) {
+  const Theme theme = state->theme[state->selectedTheme];
+  const int startHeight = state->screenHeight / 2 - 6 * FONT_SIZE;
+  DrawTextCentre("==Avoidance 2.0==", startHeight, theme.foregroundColour, state->screenWidth);
+  DrawTextCentre("Move: W/A/S/D or Arrow Keys", startHeight + FONT_SIZE * 2, theme.foregroundColour, state->screenWidth);
+  DrawTextCentre("Help: H", startHeight + FONT_SIZE * 4, theme.foregroundColour, state->screenWidth);
+  DrawTextCentre("Play: P", startHeight + FONT_SIZE * 6, theme.foregroundColour, state->screenWidth);
+  DrawTextCentre("Stop Game: Q", startHeight + FONT_SIZE * 8, theme.foregroundColour, state->screenWidth);
+  DrawTextCentre("Toggle Theme: T", startHeight + FONT_SIZE * 10, theme.foregroundColour, state->screenWidth);
 #ifndef TARGET_WEB
-  DrawTextCentre("Quit: Esc", startHeight + FONT_SIZE * 12, theme.foregroundColour, state.screenWidth);
+  DrawTextCentre("Quit: Esc", startHeight + FONT_SIZE * 12, theme.foregroundColour, state->screenWidth);
 #else
-  DrawTextCentre("Exit Fullscreen: Esc", startHeight + FONT_SIZE * 12, theme.foregroundColour, state.screenWidth);
+  DrawTextCentre("Exit Fullscreen: Esc", startHeight + FONT_SIZE * 12, theme.foregroundColour, state->screenWidth);
 #endif
 }
 
-static void DrawGameplay(GameState state) {
-  const Theme theme = state.theme[state.selectedTheme];
+static void DrawGameplay(GameState *state) {
+  const Theme theme = state->theme[state->selectedTheme];
   const Font font = GetFontDefault();
-  DrawTextEx(font,BOX_CHARACTER, state.positions[BOX_ID], FONT_SIZE, 0.0f, theme.boxColour);
-  DrawTextEx(font,PLAYER_CHARACTER, state.positions[PLAYER_ID], FONT_SIZE, 0.0f, theme.playerColour);
-  for (unsigned int i = ENEMY_START_ID; i < state.characterCount; ++i) {
-    DrawTextEx(font,ENEMY_CHARACTER, state.positions[i], FONT_SIZE, 0.0f, theme.enemyColour);
+  DrawTextEx(font,BOX_CHARACTER, state->positions[BOX_ID], FONT_SIZE, 0.0f, theme.boxColour);
+  DrawTextEx(font,PLAYER_CHARACTER, state->positions[PLAYER_ID], FONT_SIZE, 0.0f, theme.playerColour);
+  for (uint16_t i = ENEMY_START_ID; i < state->characterCount; ++i) {
+    DrawTextEx(font,ENEMY_CHARACTER, state->positions[i], FONT_SIZE, 0.0f, theme.enemyColour);
   }
 }
 
-static void DrawHelp(GameState state) {
-  const Theme theme = state.theme[state.selectedTheme];
-  const int startWidth = state.screenWidth / 5;
-  const int startHeight = state.screenHeight / 2 - 14 * FONT_SIZE;
+static void DrawHelp(GameState *state) {
+  const Theme theme = state->theme[state->selectedTheme];
+  const int startWidth = state->screenWidth / 5;
+  const int startHeight = state->screenHeight / 2 - 14 * FONT_SIZE;
   DrawText("Use W, A, S, and D to move up, left, down, and right respectively.", startWidth, startHeight, FONT_SIZE, theme.foregroundColour);
   DrawText("Press Q during an active game to return to the main menu.", startWidth, startHeight + FONT_SIZE * 2, FONT_SIZE, theme.foregroundColour);
 #ifndef TARGET_WEB
@@ -57,40 +57,44 @@ static void DrawHelp(GameState state) {
   DrawText("Press any key to return to the main menu.", startWidth, startHeight + FONT_SIZE * 28, FONT_SIZE, theme.foregroundColour);
 }
 
-static void DrawScore(GameState state) {
-  const Theme theme = state.theme[state.selectedTheme];
-  const char *score = TextFormat("Score: %lu Level: %u", state.score, state.characterCount - 2);
-  int scoreLength = MeasureText(score, FONT_SIZE);
-  DrawText(score, state.screenWidth - scoreLength, 0, FONT_SIZE, theme.foregroundColour);
+static void DrawScore(GameState *state) {
+  const Theme theme = state->theme[state->selectedTheme];
+  const char *score = TextFormat("Score: %lu Level: %u", state->score, state->characterCount - 2);
+  const int scoreLength = MeasureText(score, FONT_SIZE);
+  DrawText(score, state->screenWidth - scoreLength, 0, FONT_SIZE, theme.foregroundColour);
   DrawFPS(0, 0);
 }
 
-static void DrawToScreen(GameState state, Texture2D texture) {
-  float scale = fminf((float) GetScreenWidth() / state.screenWidth, (float) GetScreenHeight() / state.screenHeight);
+static void DrawToScreen(GameState *state, Texture2D texture) {
+  const float scale = fminf((float) GetScreenWidth() / state->screenWidth, (float) GetScreenHeight() / state->screenHeight);
   BeginDrawing();
   ClearBackground(BLACK);
-  Rectangle textureRectangle = (Rectangle) {
-    0.0f,
-    0.0f,
-    (float) texture.width,
-    (float) -texture.height
+  const Rectangle textureRectangle = {
+    .x = 0.0f,
+    .y = 0.0f,
+    .width = (float) texture.width,
+    .height = (float) -texture.height
   };
-  Rectangle screenRectangle = (Rectangle) {
-    (GetScreenWidth() - ((float) state.screenWidth * scale)) * 0.5f,
-    (GetScreenHeight() - ((float) state.screenHeight * scale)) * 0.5f,
-    state.screenWidth * scale,
-    state.screenHeight * scale
+  const Rectangle screenRectangle = {
+    .x = (GetScreenWidth() - ((float) state->screenWidth * scale)) * 0.5f,
+    .y = (GetScreenHeight() - ((float) state->screenHeight * scale)) * 0.5f,
+    .width = state->screenWidth * scale,
+    .height = state->screenHeight * scale
   };
-  DrawTexturePro(texture, textureRectangle, screenRectangle, (Vector2) { 0.0f, 0.0f }, 0.0f, WHITE);
+  static const Vector2 origin = {
+    .x = 0.0f,
+    .y = 0.0f
+  };
+  DrawTexturePro(texture, textureRectangle, screenRectangle, origin, 0.0f, WHITE);
   EndDrawing();
 }
 
-void HandleDraw(GameState state) {
-  const Theme theme = state.theme[state.selectedTheme];
-  BeginTextureMode(state.renderTexture);
+void HandleDraw(GameState *state) {
+  const Theme theme = state->theme[state->selectedTheme];
+  BeginTextureMode(state->renderTexture);
   ClearBackground(theme.backgroundColour);
   DrawBoundary(state);
-  switch (state.screen) {
+  switch (state->screen) {
     case TITLE:
       DrawTitle(state);
       break;
@@ -100,10 +104,8 @@ void HandleDraw(GameState state) {
     case HELP:
       DrawHelp(state);
       break;
-    default:
-      break;
   }
   DrawScore(state);
   EndTextureMode();
-  DrawToScreen(state, state.renderTexture.texture);
+  DrawToScreen(state, state->renderTexture.texture);
 }

@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void HandleDraw(GameState state);
+void HandleDraw(GameState *state);
 
 #endif

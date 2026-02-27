@@ -5,10 +5,10 @@
 
 static Rectangle VectorToRectangle(GameState *state, Vector2 vector) {
   return (Rectangle) {
-    vector.x,
-    vector.y,
-    state->characterDimensions.x,
-    state->characterDimensions.y
+    .x = vector.x,
+    .y = vector.y,
+    .width = state->characterDimensions.x,
+    .height = state->characterDimensions.y
   };
 }
 
