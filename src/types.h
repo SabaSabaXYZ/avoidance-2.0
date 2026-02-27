@@ -2,6 +2,7 @@
 #define TYPES_H
 
 #include <raylib.h>
+#include <stdint.h>
 
 #define FONT_SIZE 32
 
@@ -47,18 +48,18 @@ typedef struct Theme {
 } Theme;
 
 typedef struct GameState {
-  GameScreen screen;
-  int screenWidth;
-  int screenHeight;
-  Rectangle gameBoundary;
   Vector2 positions[MAX_CHARACTERS];
   MoveDirection directions[MAX_CHARACTERS];
-  Vector2 characterDimensions;
-  unsigned int characterCount;
-  unsigned long score;
-  RenderTexture2D renderTexture;
-  unsigned int selectedTheme;
   Theme theme[THEME_COUNT];
+  RenderTexture2D renderTexture;
+  Rectangle gameBoundary;
+  Vector2 characterDimensions;
+  uint64_t score;
+  uint32_t screenWidth;
+  uint32_t screenHeight;
+  uint16_t characterCount;
+  uint8_t selectedTheme;
+  GameScreen screen;
 } GameState;
 
 #endif

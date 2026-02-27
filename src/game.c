@@ -38,7 +38,7 @@ static void UpdatePositionByDirection(GameState *state, Vector2 *position, MoveD
 
 static void UpdateBoxDirection(GameState *state) {
   Rectangle boxRectangle = VectorToRectangle(state, state->positions[BOX_ID]);
-  for (unsigned int i = state->characterCount - 1; i >= PLAYER_ID; --i) {
+  for (uint16_t i = state->characterCount - 1; i >= PLAYER_ID; --i) {
     if (CheckCollisionRecs(boxRectangle, VectorToRectangle(state, state->positions[i]))) {
       state->directions[BOX_ID] = state->directions[i];
       return;
@@ -111,15 +111,15 @@ void UpdatePositions(GameState *state) {
   if (state->score % 1000 == 0 && state->characterCount < MAX_CHARACTERS) {
     state->characterCount++;
   }
-  for (unsigned int i = ENEMY_START_ID; i < state->characterCount; ++i) {
+  for (uint16_t i = ENEMY_START_ID; i < state->characterCount; ++i) {
     InitializeEnemy(state, &state->positions[i], &state->directions[i]);
   }
-  for (unsigned int i = 0; i < state->characterCount; ++i) {
+  for (uint16_t i = 0; i < state->characterCount; ++i) {
     UpdatePositionByDirection(state, &state->positions[i], state->directions[i]);
   }
   UpdateBoxDirection(state);
   CheckGameEnd(state);
-  for (unsigned int i = PLAYER_ID; i < ENEMY_START_ID; ++i) {
+  for (uint16_t i = PLAYER_ID; i < ENEMY_START_ID; ++i) {
     RestrictToGameArea(state, &state->positions[i]);
   }
 }

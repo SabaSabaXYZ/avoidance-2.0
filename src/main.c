@@ -6,7 +6,7 @@
 #include <raymath.h>
 #include <time.h>
 
-Theme defaultTheme = {
+static Theme defaultTheme = {
   .backgroundColour = BLACK,
   .foregroundColour = WHITE,
   .borderColour = RED,
@@ -15,7 +15,7 @@ Theme defaultTheme = {
   .enemyColour = PINK
 };
 
-Theme lightTheme = {
+static Theme lightTheme = {
   .backgroundColour = LIGHTGRAY,
   .foregroundColour = BLACK,
   .borderColour = DARKBROWN,
@@ -24,7 +24,7 @@ Theme lightTheme = {
   .enemyColour = MAROON
 };
 
-Theme greyTheme = {
+static Theme greyTheme = {
   .backgroundColour = DARKGRAY,
   .foregroundColour = RAYWHITE,
   .borderColour = BEIGE,
@@ -33,7 +33,7 @@ Theme greyTheme = {
   .enemyColour = MAGENTA
 };
 
-Theme goldTheme = {
+static Theme goldTheme = {
   .backgroundColour = DARKBROWN,
   .foregroundColour = GOLD,
   .borderColour = YELLOW,
@@ -42,7 +42,7 @@ Theme goldTheme = {
   .enemyColour = BEIGE
 };
 
-Theme purpleTheme = {
+static Theme purpleTheme = {
   .backgroundColour = DARKPURPLE,
   .foregroundColour = YELLOW,
   .borderColour = RED,
@@ -51,7 +51,7 @@ Theme purpleTheme = {
   .enemyColour = PINK
 };
 
-Theme greenTheme = {
+static Theme greenTheme = {
   .backgroundColour = DARKGREEN,
   .foregroundColour = LIGHTGRAY,
   .borderColour = GOLD,
