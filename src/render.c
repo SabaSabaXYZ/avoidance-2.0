@@ -72,7 +72,7 @@ static void DrawFramesPerSecond(const GameState *const state, const int posX, co
 
 static void DrawScore(const GameState *const state) {
   const Theme theme = state->theme[state->selectedTheme];
-  const char *score = TextFormat("Score: %lu Level: %u", state->score, state->characterCount - 2);
+  const char *score = TextFormat("Score: %llu Level: %u", state->score, state->characterCount - 2);
   const int scoreLength = MeasureText(score, state->fontSize);
   DrawText(score, state->screenWidth - scoreLength, 0, state->fontSize, theme.foregroundColour);
   DrawFramesPerSecond(state, 0, 0);
