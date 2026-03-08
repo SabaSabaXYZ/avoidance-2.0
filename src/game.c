@@ -17,19 +17,19 @@ static void RestrictToGameArea(GameState *state, Vector2 *position) {
   position->y = Clamp(position->y, state->gameBoundary.y, state->gameBoundary.height);
 }
 
-static void UpdatePositionByDirection(GameState *state, Vector2 *position, MoveDirection direction) {
+static void UpdatePositionByDirection(float speed, Vector2 *position, MoveDirection direction) {
   switch (direction) {
     case UP:
-      position->y -= MOVEMENT_SPEED;
+      position->y -= speed;
       break;
     case DOWN:
-      position->y += MOVEMENT_SPEED;
+      position->y += speed;
       break;
     case LEFT:
-      position->x -= MOVEMENT_SPEED;
+      position->x -= speed;
       break;
     case RIGHT:
-      position->x += MOVEMENT_SPEED;
+      position->x += speed;
       break;
     default:
       break;
@@ -98,8 +98,8 @@ void StartGame(GameState *state) {
   box->x = (float) state->screenWidth / 2;
   box->y = (float) state->screenHeight / 2;
   Vector2 *player = &state->positions[PLAYER_ID];
-  player->x = box->x - FONT_SIZE * 2;
-  player->y = box->y - FONT_SIZE * 2;
+  player->x = box->x - state->fontSize * 2;
+  player->y = box->y - state->fontSize * 2;
   state->directions[BOX_ID] = NONE;
 }
 
@@ -107,6 +107,9 @@ void UpdatePositions(GameState *state) {
   if (state->screen != GAMEPLAY) {
     return;
   }
+  const float fps = (float) GetFPS();
+  const float scale = 60.0 / fps;
+  const float speed = state->movementSpeed * scale;
   state->score++;
   if (state->score % 1000 == 0 && state->characterCount < MAX_CHARACTERS) {
     state->characterCount++;
@@ -115,7 +118,7 @@ void UpdatePositions(GameState *state) {
     InitializeEnemy(state, &state->positions[i], &state->directions[i]);
   }
   for (uint16_t i = 0; i < state->characterCount; ++i) {
-    UpdatePositionByDirection(state, &state->positions[i], state->directions[i]);
+    UpdatePositionByDirection(speed, &state->positions[i], state->directions[i]);
   }
   UpdateBoxDirection(state);
   CheckGameEnd(state);

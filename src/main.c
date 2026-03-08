@@ -2,6 +2,7 @@
 #include "keys.h"
 #include "render.h"
 #include "types.h"
+#include <math.h>
 #include <raylib.h>
 #include <raymath.h>
 #include <time.h>
@@ -78,14 +79,17 @@ static void InitializeGame(GameState *state) {
   state->screenWidth = GetMonitorWidth(monitor);
   state->screenHeight = GetMonitorHeight(monitor);
   SetWindowSize(state->screenWidth, state->screenHeight);
+  float scale = fminf((float) state->screenWidth / 1920.0, (float) state->screenHeight / 1200.0);
+  state->fontSize = scale * 32.0;
+  state->movementSpeed = scale * 8.0;
   state->renderTexture = LoadRenderTexture(state->screenWidth, state->screenHeight);
   SetTextureFilter(state->renderTexture.texture, TEXTURE_FILTER_BILINEAR);
-  state->gameBoundary = (Rectangle) { GAME_LEFT, GAME_TOP, state->screenWidth - GAME_LEFT, state->screenHeight - GAME_TOP };
+  state->gameBoundary = (Rectangle) { 0, state->fontSize, state->screenWidth, state->screenHeight - state->fontSize };
   state->screen = TITLE;
   state->score = 0;
   state->characterCount = 2;
   const Font font = GetFontDefault();
-  state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, FONT_SIZE, 0.0f);
+  state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, state->fontSize, 0.0f);
   InitializeThemes(state);
 #ifndef TARGET_WEB
   ToggleFullscreen();
