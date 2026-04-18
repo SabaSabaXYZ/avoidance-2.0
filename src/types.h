@@ -39,21 +39,17 @@ typedef struct Theme {
   Color enemyColour;
 } Theme;
 
-#ifndef TARGET_WEB
 typedef struct Sounds {
   Music music;
   Sound push;
   Wave wave;
 } Sounds;
-#endif
 
 typedef struct GameState {
   Vector2 positions[MAX_CHARACTERS];
   MoveDirection directions[MAX_CHARACTERS];
   Theme theme[THEME_COUNT];
-#ifndef TARGET_WEB
   Sounds sounds;
-#endif
   RenderTexture2D renderTexture;
   Rectangle gameBoundary;
   Vector2 characterDimensions;

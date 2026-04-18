@@ -1,9 +1,7 @@
 #include "game.h"
 #include "keys.h"
-#ifndef TARGET_WEB
 #include "music.h"
 #include "push.h"
-#endif
 #include "render.h"
 #include "types.h"
 #include <math.h>
@@ -76,7 +74,6 @@ static void InitializeThemes(GameState *state) {
   state->theme[5] = greenTheme;
 }
 
-#ifndef TARGET_WEB
 static void InitializeAudio(GameState *state) {
   InitAudioDevice();
   Wave wave = LoadWaveFromMemory(".ogg", push_ogg, push_ogg_len);
@@ -88,7 +85,6 @@ static void InitializeAudio(GameState *state) {
   PlayMusicStream(sounds.music);
   state->sounds = sounds;
 }
-#endif
 
 static void InitializeGame(GameState *state) {
   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
@@ -114,21 +110,18 @@ static void InitializeGame(GameState *state) {
 #ifndef TARGET_WEB
   ToggleFullscreen();
   HideCursor();
-  InitializeAudio(state);
 #endif
+  InitializeAudio(state);
 }
 
 static void DestroyGame(const GameState *const state) {
-#ifndef TARGET_WEB
   UnloadSound(state->sounds.push);
   UnloadWave(state->sounds.wave);
   UnloadMusicStream(state->sounds.music);
   CloseAudioDevice();
-#endif
   CloseWindow();
 }
 
-#ifndef TARGET_WEB
 static void HandleAudio(const GameState *const state) {
   if (state->screen == GAMEPLAY) {
     UpdateMusicStream(state->sounds.music);
@@ -136,12 +129,9 @@ static void HandleAudio(const GameState *const state) {
     SeekMusicStream(state->sounds.music, 0.0f);
   }
 }
-#endif
 
 static void ExecuteGameFrame(GameState *state) {
-#ifndef TARGET_WEB
   HandleAudio(state);
-#endif
   HandleKeyPress(state);
   HandleDraw(state);
   UpdatePositions(state);

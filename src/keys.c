@@ -5,7 +5,6 @@ static void HandleGlobalKeyPress(GameState *state) {
   if (IsKeyPressed(KEY_T)) {
     state->selectedTheme = (state->selectedTheme + 1) % THEME_COUNT;
   }
-#ifndef TARGET_WEB
   else if (IsKeyPressed(KEY_M)) {
     if (state->isMuted) {
       SetMusicVolume(state->sounds.music, 1.0f);
@@ -13,8 +12,13 @@ static void HandleGlobalKeyPress(GameState *state) {
       SetMusicVolume(state->sounds.music, 0.0f);
     }
     state->isMuted = !state->isMuted;
+  } else if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)
+      || IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON)
+      || IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
+    if (!IsAudioDeviceReady()) {
+      InitAudioDevice();
+    }
   }
-#endif
 }
 
 static void HandleTitleKeyPress(GameState *state) {

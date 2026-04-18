@@ -12,22 +12,18 @@ static void DrawBoundary(const GameState *const state) {
 
 static void DrawTitle(const GameState *const state) {
   const Theme theme = state->theme[state->selectedTheme];
-#ifndef TARGET_WEB
   const int startHeight = state->screenHeight / 2 - 7 * state->fontSize;
-#else
-  const int startHeight = state->screenHeight / 2 - 6 * state->fontSize;
-#endif
   DrawTextCentre(state, "==Avoidance 2.0==", startHeight, theme.foregroundColour, state->screenWidth);
   DrawTextCentre(state, "Move: W/A/S/D or Arrow Keys", startHeight + state->fontSize * 2, theme.foregroundColour, state->screenWidth);
   DrawTextCentre(state, "Help: H", startHeight + state->fontSize * 4, theme.foregroundColour, state->screenWidth);
   DrawTextCentre(state, "Play: P", startHeight + state->fontSize * 6, theme.foregroundColour, state->screenWidth);
   DrawTextCentre(state, "Stop Game: Q", startHeight + state->fontSize * 8, theme.foregroundColour, state->screenWidth);
   DrawTextCentre(state, "Toggle Theme: T", startHeight + state->fontSize * 10, theme.foregroundColour, state->screenWidth);
-#ifndef TARGET_WEB
   DrawTextCentre(state, "Toggle Music: M", startHeight + state->fontSize * 12, theme.foregroundColour, state->screenWidth);
+#ifndef TARGET_WEB
   DrawTextCentre(state, "Quit: Esc", startHeight + state->fontSize * 14, theme.foregroundColour, state->screenWidth);
 #else
-  DrawTextCentre(state, "Exit Fullscreen: Esc", startHeight + state->fontSize * 12, theme.foregroundColour, state->screenWidth);
+  DrawTextCentre(state, "Exit Fullscreen: Esc", startHeight + state->fontSize * 14, theme.foregroundColour, state->screenWidth);
 #endif
 }
 
