@@ -78,7 +78,7 @@ static void InitializeAudio(GameState *state) {
   InitAudioDevice();
   Wave wave = LoadWaveFromMemory(".ogg", push_ogg, push_ogg_len);
   Sounds sounds = {
-    .music = LoadMusicStreamFromMemory(".ogg", waltz_ogg, waltz_ogg_len),
+    .music = LoadMusicStreamFromMemory(".ogg", music, music_len),
     .wave = wave,
     .push = LoadSoundFromWave(wave)
   };
