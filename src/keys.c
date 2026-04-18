@@ -5,6 +5,16 @@ static void HandleGlobalKeyPress(GameState *state) {
   if (IsKeyPressed(KEY_T)) {
     state->selectedTheme = (state->selectedTheme + 1) % THEME_COUNT;
   }
+#ifndef TARGET_WEB
+  else if (IsKeyPressed(KEY_M)) {
+    if (state->isMuted) {
+      SetMusicVolume(state->sounds.music, 1.0f);
+    } else {
+      SetMusicVolume(state->sounds.music, 0.0f);
+    }
+    state->isMuted = !state->isMuted;
+  }
+#endif
 }
 
 static void HandleTitleKeyPress(GameState *state) {

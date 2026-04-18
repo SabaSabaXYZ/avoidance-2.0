@@ -1,10 +1,15 @@
 #include "game.h"
 #include "keys.h"
+#ifndef TARGET_WEB
+#include "music.h"
+#include "push.h"
+#endif
 #include "render.h"
 #include "types.h"
 #include <math.h>
 #include <raylib.h>
 #include <raymath.h>
+#include <stdio.h>
 #include <time.h>
 
 static Theme defaultTheme = {
@@ -71,6 +76,20 @@ static void InitializeThemes(GameState *state) {
   state->theme[5] = greenTheme;
 }
 
+#ifndef TARGET_WEB
+static void InitializeAudio(GameState *state) {
+  InitAudioDevice();
+  Wave wave = LoadWaveFromMemory(".ogg", push_ogg, push_ogg_len);
+  Sounds sounds = {
+    .music = LoadMusicStreamFromMemory(".ogg", waltz_ogg, waltz_ogg_len),
+    .wave = wave,
+    .push = LoadSoundFromWave(wave)
+  };
+  PlayMusicStream(sounds.music);
+  state->sounds = sounds;
+}
+#endif
+
 static void InitializeGame(GameState *state) {
   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
   InitWindow(800, 800, "Avoidance");
@@ -91,17 +110,38 @@ static void InitializeGame(GameState *state) {
   const Font font = GetFontDefault();
   state->characterDimensions = MeasureTextEx(font, PLAYER_CHARACTER, state->fontSize, 0.0f);
   InitializeThemes(state);
+  state->isMuted = false;
 #ifndef TARGET_WEB
   ToggleFullscreen();
   HideCursor();
+  InitializeAudio(state);
 #endif
 }
 
-static void DestroyGame() {
+static void DestroyGame(const GameState *const state) {
+#ifndef TARGET_WEB
+  UnloadSound(state->sounds.push);
+  UnloadWave(state->sounds.wave);
+  UnloadMusicStream(state->sounds.music);
+  CloseAudioDevice();
+#endif
   CloseWindow();
 }
 
+#ifndef TARGET_WEB
+static void HandleAudio(const GameState *const state) {
+  if (state->screen == GAMEPLAY) {
+    UpdateMusicStream(state->sounds.music);
+  } else {
+    SeekMusicStream(state->sounds.music, 0.0f);
+  }
+}
+#endif
+
 static void ExecuteGameFrame(GameState *state) {
+#ifndef TARGET_WEB
+  HandleAudio(state);
+#endif
   HandleKeyPress(state);
   HandleDraw(state);
   UpdatePositions(state);
@@ -114,6 +154,6 @@ int main(void) {
   while (!WindowShouldClose()) {
     ExecuteGameFrame(&state);
   }
-  DestroyGame();
+  DestroyGame(&state);
   return 0;
 }

@@ -16,13 +16,13 @@
 
 #define THEME_COUNT 6
 
-typedef enum GameScreen {
+typedef enum GameScreen : uint8_t {
   TITLE = 0,
   GAMEPLAY,
   HELP
 } GameScreen;
 
-typedef enum MoveDirection {
+typedef enum MoveDirection : uint8_t {
   NONE = 0,
   UP,
   DOWN,
@@ -39,10 +39,21 @@ typedef struct Theme {
   Color enemyColour;
 } Theme;
 
+#ifndef TARGET_WEB
+typedef struct Sounds {
+  Music music;
+  Sound push;
+  Wave wave;
+} Sounds;
+#endif
+
 typedef struct GameState {
   Vector2 positions[MAX_CHARACTERS];
   MoveDirection directions[MAX_CHARACTERS];
   Theme theme[THEME_COUNT];
+#ifndef TARGET_WEB
+  Sounds sounds;
+#endif
   RenderTexture2D renderTexture;
   Rectangle gameBoundary;
   Vector2 characterDimensions;
@@ -53,6 +64,7 @@ typedef struct GameState {
   uint16_t characterCount;
   uint8_t selectedTheme;
   uint8_t fontSize;
+  bool isMuted;
   GameScreen screen;
 } GameState;
 

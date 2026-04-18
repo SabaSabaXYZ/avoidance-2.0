@@ -41,6 +41,11 @@ static void UpdateBoxDirection(GameState *state) {
   for (uint16_t i = state->characterCount - 1; i >= PLAYER_ID; --i) {
     if (CheckCollisionRecs(boxRectangle, VectorToRectangle(state, state->positions[i]))) {
       state->directions[BOX_ID] = state->directions[i];
+#ifndef TARGET_WEB
+      if (!IsSoundPlaying(state->sounds.push)) {
+        PlaySound(state->sounds.push);
+      }
+#endif
       return;
     }
   }
