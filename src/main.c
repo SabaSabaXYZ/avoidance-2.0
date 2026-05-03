@@ -7,7 +7,6 @@
 #include <math.h>
 #include <raylib.h>
 #include <raymath.h>
-#include <stdio.h>
 #include <time.h>
 
 static Theme defaultTheme = {
